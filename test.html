@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+<script>
+console.log("Before:", typeof window.supabase, typeof window.supabase.createClient);
+try {
+  window.supabase = window.supabase.createClient('https://xxx.supabase.co', 'xxx');
+  console.log("After window.supabase is replaced:", typeof window.supabase.auth);
+} catch (e) {
+  console.log("Error:", e);
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - FinControl</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/fintech.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+    <div class="dashboard-layout">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-brand">
+                <img src="assets/logo.svg" alt="FinControl">
+                <span>FinControl</span>
+            </div>
+            <ul class="nav-links">
+                <li class="nav-item"><a href="dashboard.html" class="nav-link active"><i class="fas fa-home"></i>
+                        Dashboard</a></li>
+                <li class="nav-item"><a href="admin.html" class="nav-link" id="navAdmin" style="display:none;"><i
+                            class="fas fa-shield-alt"></i> Panel Admin</a></li>
+                <li class="nav-item"><a href="payments.html" class="nav-link"><i class="fas fa-credit-card"></i>
+                        Suscripción</a></li>
+                <li class="nav-item"><a href="profile.html" class="nav-link"><i class="fas fa-user"></i> Mi Perfil</a>
+                </li>
+            </ul>
+            <div class="sidebar-footer">
+                <div class="user-profile-sm">
+                    <div class="avatar" id="sidebarAvatar">U</div>
+                    <div class="user-info-sm">
+                        <h4 id="sidebarName">Usuario</h4>
+                        <p id="sidebarPlan">Plan Gratuito</p>
+                    </div>
+                </div>
+                <button id="logoutBtn" class="btn btn-outline mt-3" style="width:100%; padding:8px;"><i
+                        class="fas fa-sign-out-alt"></i> Salir</button>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <div class="topbar">
+                <div style="display: flex; align-items: center; gap: 15px;">
+                    <i class="fas fa-bars mobile-toggle" id="mobileMenuBtn"></i>
+                    <h2>Resumen Financiero</h2>
+                </div>
+                <div class="header-actions">
+                    <button class="btn btn-primary" id="addRecordBtn"><i class="fas fa-plus"></i> Nuevo
+                        Registro</button>
+                </div>
+            </div>
+
+            <!-- Cards -->
+            <div class="card-grid">
+                <div class="stat-card">
+                    <div class="stat-icon balance"><i class="fas fa-wallet"></i></div>
+                    <div class="stat-details">
+                        <h3>Saldo Actual</h3>
+                        <div class="amount" id="totalBalance">$0.00</div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon income"><i class="fas fa-arrow-up"></i></div>
+                    <div class="stat-details">
+                        <h3>Ingresos del Mes</h3>
+                        <div class="amount" id="monthlyIncome">$0.00</div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon expense"><i class="fas fa-arrow-down"></i></div>
+                    <div class="stat-details">
+                        <h3>Gastos del Mes</h3>
+                        <div class="amount" id="monthlyExpense">$0.00</div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon analytics"><i class="fas fa-chart-line"></i></div>
+                    <div class="stat-details">
+                        <h3>Gasto Promedio Diario</h3>
+                        <div class="amount" id="avgDailyExpense">$0.00</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="dashboard-sections">
+                <!-- Gráficos -->
+                <div class="panel">
+                    <div class="panel-header">
+                        <h3>Evolución Financiera</h3>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="mainChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Resumen Categorías -->
+                <div class="panel">
+                    <div class="panel-header">
+                        <h3>Gastos por Categoría</h3>
+                    </div>
+                    <div class="chart-circular-container">
+                        <canvas id="categoryChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Movimientos Recientes -->
+                <div class="panel" style="grid-column: 1 / -1;">
+                    <div class="panel-header">
+                        <h3>Movimientos Recientes</h3>
+                        <a href="#" style="font-size: 0.875rem;">Ver todos</a>
+                    </div>
+                    <div class="transaction-list" id="transactionList">
+                        <!-- Llenado dinámico -->
+                        <div class="text-center" style="color:var(--text-light); padding:20px;">Cargando...</div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modal Formulario -->
+    <div class="modal-overlay" id="recordModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Registrar Movimiento</h3>
+                <button class="modal-close" id="closeModalBtn"><i class="fas fa-times"></i></button>
+            </div>
+            <form id="recordForm">
+                <div class="form-group">
+                    <label class="form-label">Tipo</label>
+                    <select id="rTipo" class="form-control" required>
+                        <option value="gasto">Gasto</option>
+                        <option value="ingreso">Ingreso</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Valor</label>
+                    <input type="number" step="0.01" id="rValor" class="form-control" placeholder="0.00" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Categoría</label>
+                    <select id="rCategoria" class="form-control" required>
+                        <option value="comida">Comida</option>
+                        <option value="transporte">Transporte</option>
+                        <option value="vivienda">Vivienda</option>
+                        <option value="entretenimiento">Entretenimiento</option>
+                        <option value="salud">Salud</option>
+                        <option value="salario">Salario (Ingreso)</option>
+                        <option value="otros">Otros</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Fecha</label>
+                    <input type="date" id="rFecha" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Descripción</label>
+                    <input type="text" id="rDesc" class="form-control" placeholder="Ej. Almuerzo menú">
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;">Guardar Registro</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/supabaseClient.js?v=2"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="js/charts.js"></script>
+    <script src="js/expenses.js"></script>
+    <script src="js/dashboard.js"></script>
+</body>
+
+</html>

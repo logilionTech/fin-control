@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FinControl - Carga y Redirección</title>
+    <link rel="stylesheet" href="css/fintech.css">
+</head>
+<body style="display: flex; justify-content: center; align-items: center; height: 100vh; flex-direction: column;">
+    <img src="assets/logo.svg" alt="FinControl Logo" width="150" style="margin-bottom: 20px;">
+    <h1>Bienvenido a FinControl</h1>
+    <p style="color: var(--text-light);">Cargando tu aplicación financiera...</p>
+    
+    <script>
+        // Si no hay sesión, al login
+        setTimeout(() => {
+            window.location.href = "login.html";
+        }, 1500);
+    </script>
+</body>
+</html>

@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Suscripciones - FinControl</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/fintech.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="stylesheet" href="css/charts.css">
+</head>
+
+<body>
+    <div class="dashboard-layout">
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-brand">
+                <img src="assets/logo.svg" alt="FinControl">
+                <span>FinControl</span>
+            </div>
+            <ul class="nav-links">
+                <li class="nav-item"><a href="dashboard.html" class="nav-link"><i class="fas fa-home"></i> Dashboard</a>
+                </li>
+                <li class="nav-item"><a href="#" class="nav-link" id="navAdmin" style="display:none;"><i
+                            class="fas fa-shield-alt"></i> Panel Admin</a></li>
+                <li class="nav-item"><a href="payments.html" class="nav-link active"><i class="fas fa-credit-card"></i>
+                        Suscripción</a></li>
+                <li class="nav-item"><a href="profile.html" class="nav-link"><i class="fas fa-user"></i> Mi Perfil</a>
+                </li>
+            </ul>
+        </aside>
+
+        <main class="main-content">
+            <div class="topbar">
+                <div style="display: flex; align-items: center; gap: 15px;">
+                    <i class="fas fa-bars mobile-toggle" id="mobileMenuBtn"></i>
+                    <h2>Suscripciones y Pagos</h2>
+                </div>
+            </div>
+
+            <div class="panel text-center" style="margin-bottom: 30px;">
+                <h3>Tu Plan Actual: <span id="currentPlanStatus" style="color:var(--color-balance);">Cargando...</span>
+                </h3>
+                <p style="color:var(--text-light);" class="mt-1">Administra tu cuenta y actualiza a una versión
+                    profesional para acceder a mejores herramientas.</p>
+            </div>
+
+            <div class="pricing-grid">
+                <!-- Free Plan -->
+                <div class="pricing-card">
+                    <h3>Gratuito</h3>
+                    <div class="price">$0 <span>/ mes</span></div>
+                    <ul class="pricing-features">
+                        <li><i class="fas fa-check"></i> Hasta 50 registros mensuales</li>
+                        <li><i class="fas fa-check"></i> Dashboard básico</li>
+                        <li><i class="fas fa-times" style="color:#e0e4e8"></i> Analítica avanzada</li>
+                    </ul>
+                    <button class="btn btn-outline" style="width: 100%;" disabled>Plan Actual</button>
+                </div>
+
+                <!-- Pro Plan -->
+                <div class="pricing-card pro">
+                    <div class="badge">RECOMENDADO</div>
+                    <h3>Profesional</h3>
+                    <div class="price">$9 <span>/ mes</span></div>
+                    <ul class="pricing-features">
+                        <li><i class="fas fa-check"></i> Registros ilimitados</li>
+                        <li><i class="fas fa-check"></i> Analítica avanzada interactiva</li>
+                        <li><i class="fas fa-check"></i> Exportación de reportes</li>
+                    </ul>
+                    <button class="btn btn-primary" style="width: 100%;"
+                        onclick="openPaymentModal('Profesional', 9)">Actualizar Ahora</button>
+                </div>
+
+                <!-- Enterprise Plan -->
+                <div class="pricing-card">
+                    <h3>Empresarial</h3>
+                    <div class="price">$29 <span>/ mes</span></div>
+                    <ul class="pricing-features">
+                        <li><i class="fas fa-check"></i> Todo lo de Pro</li>
+                        <li><i class="fas fa-check"></i> Subcuentas (Multi-usuario)</li>
+                        <li><i class="fas fa-check"></i> Soporte prioritario 24/7</li>
+                    </ul>
+                    <button class="btn btn-outline" style="width: 100%;"
+                        onclick="openPaymentModal('Empresarial', 29)">Contactar Ventas</button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modal Pago (Simulación / UI para integración con Stripe/MercadoPago) -->
+    <div class="modal-overlay" id="paymentModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Detalles de Pago</h3>
+                <button class="modal-close" id="closePaymentBtn"><i class="fas fa-times"></i></button>
+            </div>
+            <p style="margin-bottom:20px; color:var(--text-light);">
+                Estás a punto de actualizar al plan <strong id="selectedPlan" style="color:var(--text-dark);"></strong>
+                por <strong id="selectedPrice" style="color:var(--text-dark);"></strong>.
+            </p>
+            <form id="paymentForm">
+                <div class="form-group">
+                    <label class="form-label">Nombre en la Tarjeta</label>
+                    <input type="text" class="form-control" placeholder="Juan Pérez" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Número de Tarjeta</label>
+                    <input type="text" class="form-control" placeholder="0000 0000 0000 0000" required>
+                </div>
+                <div style="display: flex; gap:15px;">
+                    <div class="form-group" style="flex:1;">
+                        <label class="form-label">Expiración</label>
+                        <input type="text" class="form-control" placeholder="MM/YY" required>
+                    </div>
+                    <div class="form-group" style="flex:1;">
+                        <label class="form-label">CVC</label>
+                        <input type="text" class="form-control" placeholder="123" required>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width:100%;"><i class="fas fa-lock"></i> Pagar
+                    Seguro</button>
+            </form>
+            <div class="text-center mt-3" style="font-size: 0.8rem; color:var(--text-light);">
+                Pagos procesados de forma segura mediante Stripe
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/supabaseClient.js?v=2"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="js/payments.js"></script>
+</body>
+
+</html>
