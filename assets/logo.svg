@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200">
+  <!-- Fondo redondeado suave -->
+  <rect x="10" y="10" width="180" height="180" rx="40" fill="#ffffff" filter="drop-shadow(0 8px 16px rgba(0,0,0,0.05))"/>
+  
+  <!-- Billetera digital -->
+  <rect x="40" y="50" width="120" height="80" rx="15" fill="#3498db" />
+  <rect x="140" y="75" width="30" height="30" rx="8" fill="#2980b9" />
+  <circle cx="155" cy="90" r="5" fill="#ecf0f1" />
+
+  <!-- Gráfico ascendente (Analítica minimalista) -->
+  <path d="M 50 160 L 90 120 L 120 140 L 160 85" fill="none" stroke="#2ecc71" stroke-width="12" stroke-linecap="round" stroke-linejoin="round" />
+  <polygon points="145 85, 170 85, 160 70" fill="#2ecc71" />
+  
+  <!-- Símbolos y decoraciones -->
+  <circle cx="90" cy="120" r="8" fill="#ffffff" stroke="#2ecc71" stroke-width="4" />
+  <circle cx="120" cy="140" r="8" fill="#ffffff" stroke="#2ecc71" stroke-width="4" />
+  <circle cx="50" cy="160" r="8" fill="#ffffff" stroke="#2ecc71" stroke-width="4" />
+</svg>
